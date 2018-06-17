@@ -35,7 +35,7 @@ int main() {
     T item = T_array_get(&arr, index);
 
     // Getting the last item from the array, and removing it in the process.
-    T item = T_array_get(&arr);
+    T item = T_array_pop(&arr);
 
     // Removing items from the arrays.
     T returned_item = T_array_remove(&arr, index);
