@@ -56,7 +56,7 @@ type type ## _array_remove(array_type* arr, int index) {                      \
 
 
 
-// ARRAY_FUNS_IMPL(TYPE, FOR_ARRAY)
+// ARRAY_FUNCS_IMPL(TYPE, FOR_ARRAY)
 // ARRAY_FUNCS_IMPL(int, int_array);
 // ARRAY_FUNCS_IMPL(char, char_array);
 // ARRAY_FUNCS_IMPL(long, long_array);
