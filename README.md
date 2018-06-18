@@ -4,6 +4,9 @@ A simple library for making variable-sized arrays.
 ## Usage
 In your *.h file:
 ```c
+// Include the library
+#include "vec.h"
+
 // In the below code, replace T with desired type/typedef.
 
 // You can choose to typedef ARRAY(T) and replace it with the typedef too.
@@ -18,7 +21,7 @@ In your *.c file:
 // Include the library
 #include "vec.h"
 
-// This shares the same arguments as ARRAY_FUNCS_DECL.
+// This shares the same arguments as ARRAY_FUNCS_DECL above.
 ARRAY_FUNCS_IMPL(T, ARRAY(T));
 
 int main() {
