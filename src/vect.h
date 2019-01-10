@@ -1,7 +1,7 @@
 #ifndef VECT_H_INCLUDED
 #define VECT_H_INCLUDED
 
-#include <stdlib.h>
+#include <string.h>
 
 #define ARRAY(type)                     \
     struct type ## _array {             \
@@ -19,6 +19,7 @@
     type       type ## _array_remove (array_type* array, int index);
 
 #define ARRAY_FUNCS_IMPL(type, array_type)                                    \
+/* Creates a new array. `capacity` sets the initial capacity of the array. */ \
 array_type type ## _array_new(int capacity) {                                 \
     int cap = capacity * sizeof(type);                                        \
     type* cont = (type*)malloc(cap);                                          \
@@ -31,6 +32,7 @@ array_type type ## _array_new(int capacity) {                                 \
     return new_array;                                                         \
 }                                                                             \
                                                                               \
+/* Pushes an element into the array. */                                       \
 void type ## _array_push(array_type* arr, type item) {                        \
     int new_count = arr->count + 1;                                           \
                                                                               \
@@ -45,21 +47,25 @@ void type ## _array_push(array_type* arr, type item) {                        \
     arr->count = new_count;                                                   \
 }                                                                             \
                                                                               \
+/* Gets an element from the array */                                          \
 type type ## _array_get(const array_type* arr, int index) {                   \
     /*if (index > arr->count) return NULL;*/                                  \
     return arr->items[index];                                                 \
 }                                                                             \
                                                                               \
+/* Removes the last element from the array */                                 \
 type type ## _array_pop(array_type* arr) {                                    \
     return type##_array_remove(arr, arr->count-1);                            \
 }                                                                             \
                                                                               \
+/* Frees the content held by the array. Sets the pointer to NULL. */          \
 void type ## _array_free(array_type* arr) {                                   \
     free(arr->items);                                                         \
     arr->items = 0;                                                           \
     arr = 0;                                                                  \
 }                                                                             \
                                                                               \
+/* Removes an item from the array and returns said item. */                   \
 type type ## _array_remove(array_type* arr, int index) {                      \
     type removed_item = arr->items[index];                                    \
     memmove(arr->items + index, arr->items + index + 1, arr->count - index);  \
@@ -70,6 +76,24 @@ type type ## _array_remove(array_type* arr, int index) {                      \
         arr->capacity = new_capacity;                                         \
     }                                                                         \
     return removed_item;                                                      \
+}                                                                             \
+                                                                              \
+/* Drains the array, removing all elements in it. Retains the capacity. */    \
+void type ## _array_drain(array_type* arr) {                                  \
+    memset(arr->items, 0, arr->capacity * sizeof(type));                      \
+    arr->count = 0;                                                           \
+}                                                                             \
+                                                                              \
+/* Shrinks the capacity of the array to exactly the length of it */           \
+void type ## _array_shrink(array_type* arr) {                                 \
+    arr->items = realloc(arr->items, arr->count * sizeof(type));              \
+}                                                                             \
+                                                                              \
+/* Extends the capacity of the array by n. */                                 \
+void type ## _array_extend(array_type* arr, unsigned int n) {                 \
+    unsigned int new_capacity = n + arr->capacity;                            \
+    arr->items = realloc(arr->items, new_capacity * sizeof(type));            \
+    arr->capacity = new_capacity;                                             \
 }
 
 /*
