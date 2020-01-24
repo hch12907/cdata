@@ -38,7 +38,7 @@ void type ## _array_push(array_type* arr, type item) {                        \
                                                                               \
     /* Double the capacity if count > capacity. */                            \
     if (new_count > arr->capacity) {                                          \
-        int new_cap = arr->capacity * 2;                                      \
+        int new_cap = (arr->capacity > 0) ? arr->capacity * 2 : 1;            \
         arr->items = (type*)realloc(arr->items, new_cap * sizeof(type));      \
         arr->capacity = new_cap;                                              \
     }                                                                         \
