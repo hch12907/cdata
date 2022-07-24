@@ -7,13 +7,25 @@ In your *.h file:
 // Include the library
 #include "vec.h"
 
-// In the below code, replace T with desired type/typedef.
+// In the below code, replace T with the desired type/typedef.
+// Note that T can only be 1 token long, i.e. "unsigned long" is disallowed.
+// To use those types, typedef them and supply the typedef to the macros. 
 
-// You can choose to typedef ARRAY(T) and replace it with the typedef too.
+// This declares a struct of T_array.
+// The struct contains 3 fields: capacity, count, items.
+// `capacity`: the maximum capacity of the T_array, when it is exceeded the
+//             array will reallocate automatically.
+// `count`: the amount of elements stored in this array.
+// `items`: a pointer to a heap-allocated contiguous array.
+//
+// NOTE: it is insta-UB to mutate ANY field outside of the provided methods!
+ARRAY(T);
+
+// You can choose to typedef ARRAY(T) too.
 // typedef ARRAY(T) T_arr;
 
 // This declares the functions for ARRAY(T).
-ARRAY_FUNCS_DECL(T, ARRAY(T));
+ARRAY_FUNCS_DECL(T);
 ```
 
 In your *.c file:
@@ -21,16 +33,12 @@ In your *.c file:
 // Include the above header
 #include "path/to/that/header.h"
 
-// Include the library
-#include "vec.h"
+// In the below code, replace T with desired type/typedef.
 
-// This shares the same arguments as ARRAY_FUNCS_DECL above.
-// It defines/implements the functions needed for ARRAY(T).
-ARRAY_FUNCS_IMPL(T, ARRAY(T));
+// This defines/implements the functions needed for ARRAY(T).
+ARRAY_FUNCS_IMPL(T);
 
 int main() {
-    // In the below code, replace T with desired type/typedef.
-
     // Creation of the arrays
     // T is the type of the array, the constant 10 is the initial capacity
     // The capacity grows as the more elements are pushed into the array
@@ -58,7 +66,7 @@ int main() {
     T_array_shrink(&arr);
 
     // Remember to use this before the array goes out of scope!
-    // For your convenience, the function sets arr to NULL.
+    // For convenience, this function sets all fields to 0.
     T_array_free(&arr);
 }
 ```
