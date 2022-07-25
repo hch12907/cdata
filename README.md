@@ -5,5 +5,7 @@ A simple C header-only library for basic data structures.
 myself familiar with the data structures.
 
 # Documentation
+
 [hashmap.h docs](./hashmap.md) - for hashmaps with arbitrary key and value types
+
 [vector.h docs](./vec.md) - for variable-sized arrays
